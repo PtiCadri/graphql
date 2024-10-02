@@ -1,0 +1,53 @@
+type Statistics {
+    level:  Int!
+    project: Projects!
+    exp: Experience!
+    audits: Audits!
+    piscine: Piscine!
+}
+
+type Piscine {
+    Javascript: PiscineLanguage!
+    Golang: PiscineLanguage!
+    Rust: PiscineLanguage!
+}
+
+type PiscineLanguage {
+    succeedPiscine: Boolean!
+    passedFailedRatio: Float!
+    triesPerExercise: Int!
+    completedCheckpoints: Int!
+    earnedEXP: Int!
+    bonusEXP: Int!
+}
+
+type Projects {
+    currentProject: String!
+    realisedProjects: Int!
+    projectPerMonth: Int!
+}
+
+type Audits {
+    auditsDone: Int!
+    auditRatio: Float!
+    passedFailedAuditRatio: Float!
+}
+    
+type Experience {
+    totalEXPEarned: Int!
+    totalEXPGave: Int!
+    totalEXPOnMonth: Int!
+}
+
+type Mutation {
+    login(username: String!, password: String!): AuthPayload
+    logout: Boolean
+}
+
+type AuthPayload {
+    token: String!
+}
+
+type Query {
+    statistics: Statistics!
+}
