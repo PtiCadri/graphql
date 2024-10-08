@@ -4,6 +4,7 @@ Create a login page that accepts username and password or email and password.
 Use Basic authentication with base64 encoding to send the credentials to the signin endpoint.
 Handle errors and display an error message if the credentials are invalid.
 Store the JWT token in local storage or a secure cookie.
+////////////////////////////////////////////////////////////
 Step 2: Create a GraphQL client
 
 Use a GraphQL client library such as Apollo Client or GraphQL-Request to make queries to the GraphQL endpoint.

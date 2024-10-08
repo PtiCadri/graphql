@@ -39,15 +39,6 @@ type Experience {
     totalEXPOnMonth: Int!
 }
 
-type Mutation {
-    login(username: String!, password: String!): AuthPayload
-    logout: Boolean
-}
-
-type AuthPayload {
-    token: String!
-}
-
 type Query {
     statistics: Statistics!
 }

@@ -34,18 +34,6 @@ loginForm.addEventListener('submit', async (event) => {
         }
       });
       usernameDisplay.textContent = `Welcome, ${username}!`;
-      statisticsDisplay.innerHTML = `
-        <h2>Statistics</h2>
-        <p><strong>XP:</strong> ${userData.xp}</p>
-        <p><strong>Grades:</strong> ${userData.grades}</p>
-        <p><strong>Audits:</strong> ${userData.audits}</p>
-        <p><strong>Skills:</strong> ${userData.skills}</p>
-        <p><strong>Projects:</strong> ${userData.projects}</p>
-        <p><strong>Exercises:</strong> ${userData.exercises}</p>
-        <p><strong>Tests:</strong> ${userData.tests}</p>
-        <p><strong>Exams:</strong> ${userData.exams}</p>
-        <p><strong>Piscines:</strong> ${userData.piscines}</p>
-      `;
     } else {
       alert('Invalid credentials');
     }
