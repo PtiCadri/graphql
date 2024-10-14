@@ -1,98 +1,47 @@
-
-
-const resolvers = {
-  Query: {
-    statistics: async (parent, args, context) => {
-      const token = context.token;
-      const userData = await loadStatistics(token);
-      return userData;
-    },
-    // Add other query resolvers as needed
-  },
-  Mutation: {
-    login: async (parent, { username, password }) => {
-      const response = await fetch('https://zone01normandie.org/api/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Basic ${btoa(`${username}:${password}`)}`
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const token = data.token;
-        localStorage.setItem('jwt', token);
-        return { token };
-      } else {
-        throw new Error('Invalid credentials');
-      }
-    },
-    logout: async (parent, args, context) => {
-      localStorage.removeItem('jwt');
-      return true;
-    },
-    // Add other mutation resolvers as needed
-  }
-};
-
-async function loadStatistics(token) {
-  const response = await fetch('https://zone01normandie.org/api/graphql-engine/v1/graphql', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        query: `
-          query {
-            me {
-              id
-              username
-              email
-              xp
-              grades {
-                project {
-                  name
-                  grade
-                }
-                exam {
-                  name
-                  grade
-                }
-              }
-              audits {
-                project {
-                  name
-                  auditStatus
-                }
-                exam {
-                  name
-                  auditStatus
-                }
-              }
-              skills {
-                name
-                level
-              }
-              piscine {
-                name
-                stats {
-                  xp
-                  progress
-                }
-              }
-            }
-          }
-        `
-      })
-    });
-  
-    if (response.ok) {
-      const data = await response.json();
-      return data.data.me;
-    } else {
-      throw new Error('Failed to load statistics');
+const graphqlEndpoint = 'https://zone01normandie.org/api/graphql-engine/v1/graphql';
+const signinEndpoint = 'https://zone01normandie.org/api/auth/signin';
+const query = `query {
+  user {
+    id
+    firstName
+    lastName
+    login
+    githubId
+    auditRatio
+    xps {
+      amount
+      originEventId
+      path
+      userId
     }
   }
+  audit {
+    auditorLogin
+  }
+}`
 
-module.exports = resolvers;
+async function getLogData(query) {
+  const response = await fetch(graphqlEndpoint, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ query })
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  } 
+
+  const data = await response.json();
+    if (data.errors) {
+      throw new Error('GraphQL error:',data.errors[0].message);
+    }
+  return data.data;
+}
+getLogData(query).then(data => {
+  console.log(data);
+})
+.catch(error => {
+  console.error(error);
+});
