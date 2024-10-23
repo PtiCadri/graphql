@@ -1,4 +1,3 @@
-
 const loginForm = document.getElementById('login-form');
 const logoutButton = document.getElementById('logout-button');
 const loginContainer = document.getElementsByClassName('login-container')[0];
@@ -27,7 +26,7 @@ const query = `query {
   audit {
     auditorLogin
   }
-}`   
+}` 
 
 //Logout Button Part 
 logoutButton.addEventListener('click', async () => {
@@ -36,6 +35,8 @@ logoutButton.addEventListener('click', async () => {
     loginContainer.style.display = 'block';
     usernameDisplay.textContent = '';
     statisticsDisplay.innerHTML = '';
+    document.getElementById('circular-diagram-container').style.display="none"
+    document.getElementById('bar-chart-container').style.display="none"
     alert('Logout successful');
   } catch (error) {
     console.error(error);
@@ -44,9 +45,7 @@ logoutButton.addEventListener('click', async () => {
 
 //Login Form Part with chainRequests
 const chainRequests = async (event) => {
-
   event.preventDefault();
-
     try {
       const response = await fetch(signinEndpoint, {
         method: 'POST',
@@ -54,14 +53,11 @@ const chainRequests = async (event) => {
           'Authorization': `Basic ${btoa(`${username}:${password}`)}`
         }
       });
-    
       if (response.ok) {
         const data = await response.json();
         console.log('Token:', data);
         const token = data;
         localStorage.setItem('jwt', token);
-
-        
         // Update UI
         loginContainer.style.display = 'none';
         usernameDisplay.textContent = `Welcome, ${username}!`;
@@ -79,7 +75,6 @@ const chainRequests = async (event) => {
     }
 };
 
-
 async function getLogData(query) {
   const response = await fetch(graphqlEndpoint, {
     method: 'POST',
@@ -92,7 +87,6 @@ async function getLogData(query) {
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   } 
-
   const data = await response.json();
     if (data.errors) {
       throw new Error('GraphQL error:',data.errors[0].message);
@@ -102,22 +96,22 @@ async function getLogData(query) {
 
 async function displayStatistics(token) {
   const statsElement = document.getElementById('statistics-display');
-  getLogData(query).then(statsData => {
-    //console.log("stat", statsData);
-    statsElement.innerHTML = `
-      <h2>User Data</h2>
-      <h2>Statistics</h2>
-      <p>User ID: ${statsData.user[0].id}</p>
-      <p>First Name: ${statsData.user[0].firstName}</p>
-      <p>Last Name: ${statsData.user[0].lastName}</p>
-      <p>Login: ${statsData.user[0].login}</p>
-      <p>Github ID: ${statsData.user[0].githubId}</p>
-      <p>Audit Ratio: ${statsData.user[0].auditRatio}</p>
-      <h2>Auditor</h2>
-      <p>Auditor Login: ${statsData.audit[0].auditorLogin}</p>
-     
-    `;
-  });
+  const data = await getLogData(query);
+  statsElement.innerHTML = `
+    <h2>User Data</h2>
+    <h2>Statistics</h2>
+    <p>User ID: ${data.user[0].id}</p>
+    <p>First Name: ${data.user[0].firstName}</p>
+    <p>Last Name: ${data.user[0].lastName}</p>
+    <p>Login: ${data.user[0].login}</p>
+    <p>Github ID: ${data.user[0].githubId}</p>
+    <p>Audit Ratio: ${data.user[0].auditRatio}</p>
+    <p> ${username}'s expreriences</p>
+    <h2>Auditor</h2>
+    <p>Auditor Login: ${data.audit[0].auditorLogin}</p>
+    <button id="barChartButton" onclick="createBarChart()">Display Bar Chart</button>
+    <button id="circularButton" onclick="createCircularDiagram()">Display Diagram</button>
+  `;
 }
-
+  
 loginForm.addEventListener('submit', chainRequests);
