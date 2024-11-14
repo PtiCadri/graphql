@@ -3,11 +3,13 @@ const logoutButton = document.getElementById('logout-button');
 const loginContainer = document.getElementsByClassName('login-container')[0];
 const usernameDisplay = document.getElementById('username-display');
 const statisticsDisplay = document.getElementById('statistics-display');
-const username = loginForm.username.value;
+var username = loginForm.username.value;
 const password = loginForm.password.value;
+const emailAdd = localStorage.getItem('email');
 const graphqlEndpoint = 'https://zone01normandie.org/api/graphql-engine/v1/graphql';
 const signinEndpoint = 'https://zone01normandie.org/api/auth/signin';
 const token = localStorage.getItem('jwt');
+var actualUser = username;
 const query = `query {
   user {
     id
@@ -15,6 +17,8 @@ const query = `query {
     lastName
     login
     githubId
+    totalUp
+    totalDown
     auditRatio
     xps {
       amount
@@ -38,6 +42,7 @@ logoutButton.addEventListener('click', async () => {
     document.getElementById('circular-diagram-container').style.display="none"
     document.getElementById('bar-chart-container').style.display="none"
     alert('Logout successful');
+    window.location.reload();
   } catch (error) {
     console.error(error);
   }
@@ -47,10 +52,11 @@ logoutButton.addEventListener('click', async () => {
 const chainRequests = async (event) => {
   event.preventDefault();
     try {
+      const auth = username || emailAdd;
       const response = await fetch(signinEndpoint, {
         method: 'POST',
         headers: {
-          'Authorization': `Basic ${btoa(`${username}:${password}`)}`
+          'Authorization': `Basic ${btoa(`${auth}:${password}`)}`
         }
       });
       if (response.ok) {
@@ -60,9 +66,14 @@ const chainRequests = async (event) => {
         localStorage.setItem('jwt', token);
         // Update UI
         loginContainer.style.display = 'none';
-        usernameDisplay.textContent = `Welcome, ${username}!`;
+        
         getLogData(query).then(data => {
           console.log(data);
+          if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(auth)) {
+            username = data.user[0].firstName;
+          }
+          actualUser = data.user[0].firstName;
+          usernameDisplay.textContent = `Welcome, ${actualUser}!`;
         }).catch(error => {
           console.error(error);
         })
@@ -105,10 +116,13 @@ async function displayStatistics(token) {
     <p>Last Name: ${data.user[0].lastName}</p>
     <p>Login: ${data.user[0].login}</p>
     <p>Github ID: ${data.user[0].githubId}</p>
-    <p>Audit Ratio: ${data.user[0].auditRatio}</p>
-    <p> ${username}'s expreriences</p>
+    <h2> ${username}'s expreriences</h2>
+    <p>Given experiences: ${data.user[0].totalUp} xps</p>
+    <p>Earned experiences: ${data.user[0].totalDown} xps</p>
+    <p>Audit Ratio: ${data.user[0].auditRatio.toFixed(2)}</p>
     <h2>Auditor</h2>
     <p>Auditor Login: ${data.audit[0].auditorLogin}</p>
+    <br>
     <button id="barChartButton" onclick="createBarChart()">Display Bar Chart</button>
     <button id="circularButton" onclick="createCircularDiagram()">Display Diagram</button>
   `;

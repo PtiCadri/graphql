@@ -1,134 +1,343 @@
+/***Login-Container***/
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+html,body{
+  display: grid;
+  height: 100%;
+  width: 100%;
+  place-items: center;
+  background: #f2f2f2;
+  background: linear-gradient(60deg, #3d3ab4, #9e1dfd, #3d3ab4);
+}
+
+::selection{
+  background: #4158d0;
+  color: #9e1dfd;
+}
+
+.login-container{
+  width: 380px;
+  background: linear-gradient(-45deg,#9e1dfd, whitesmoke,#9e1dfd, whitesmoke);
+  border-radius: 15px;
+  box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login-container .title{
+  font-size: 35px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 100px;
+  color:  #9e1dfd;
+  user-select: none;
+  border-radius: 15px 15px 0 0;
+  background: whitesmoke;
+}
+.login-container form{
+  margin: 20px auto;
+  padding: 10px 30px 50px 20px;
+  width: 65%;
+}
+
+.login-container form .field{
+  height: 50px;
+  width: 100%;
+  margin-top: 20px;
+  position: relative;
+}
+
+.login-container form .field input{
+  height: 100%;
+  width: 100%;
+  outline: none;
+  font-size: 17px;
+  padding-left: 20px;
+  border: 1px solid lightgrey;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+
+}
+.login-container form .field input:focus,
+form .field input:valid{
+  border-color: #4158d0;
+}
+.login-container form .field label{
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  color: #999999;
+  font-weight: 400;
+  font-size: 17px;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+}
+form .field input:focus ~ label,
+form .field input:valid ~ label{
+  top: 0%;
+  font-size: 16px;
+  color: #4158d0;
+  background: #9e1dfd;
+  transform: translateY(-50%);
+}
+form .content{
+  display: flex;
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  align-items: center;
+  justify-content: space-around;
+}
+
+form .content .checkbox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+form .content input{
+  width: 15px;
+  height: 15px;
+  background: red;
+}
+form .content label{
+  color: #262626;
+  user-select: none;
+  padding-left: 5px;
+}
+form .content .pass-link{
+  color: "";
+}
+form .field input[type="submit"]{
+  color: #9e1dfd;
+  border: none;
+  padding-left: 0;
+  margin-top: -10px;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  background:whitesmoke;
+  transition: all 0.3s ease;
+}
+form .field input[type="submit"]:active{
+  transform: scale(0.95);
+}
+form .signup-link{
+  color: #262626;
+  margin-top: 20px;
+  text-align: center;
+}
+form .pass-link a,
+form .signup-link a{
+  color: #4158d0;
+  text-decoration: none;
+}
+form .pass-link a:hover,
+form .signup-link a:hover{
+  text-decoration: underline;
+}
+
+/*****Other-Container*****/
+
+#username-display {
+  padding-top: 4px;
+  font-size: 40px;
+  position: top;
+  top: 8px;
+  right: 50%;
+  color: #f2f2f2;
+}
+
+#statistics-display {
+  width: 100%;
+  padding-left: 30px;
+  color: #f2f2f2;
+  margin-top: 30px;
+  font-size: 25px;
+}
+#bar-chart-container, #circular-diagram-container {
+  float: right;
+  width: 50%;
+  clear: none;
+}
+
+#bar-chart-container {
+  margin-top: 20px;
+}
+
+/*****Buttons******/
 #logout-button {
+  width: 220px;
+  height: 50px;
+  border: none;
+  outline: none;
+  color: #9e1dfd;
+  background: #9e1dfd;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 0;
+  border-radius: 10px;
+}
+
+#logout-button:before {
+  content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-#login-container {
-    position: absolute;
-    background-color: linear();
-}
-
-.div {
-    position: relative;
-    z-index: 1;
-}
-
-.cirDiaContainer {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 500px;
-    height: 500px;
-  }
-
-/*Background Part */
-@keyframes animate {
-    0%{
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-        border-radius: 0;
-    }
-    100%{
-        transform: translateY(-1000px) rotate(720deg);
-        opacity: 0;
-        border-radius: 50%;
-    }
-}
-
-.background {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    background: #4e54c8;
-    overflow: hidden;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
     z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+ }
+
+ #logout-button:active {
+  color: #000
 }
-.background li {
+
+ #logout-button:active:after {
+  background: transparent;
+}
+
+#logout-button:hover:before {
+  opacity: 1;
+}
+ #logout-button:after {
+  z-index: -1;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: whitesmoke;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+#circularButton {
+  width: 220px;
+  height: 50px;
+  border: none;
+  outline: none;
+  color: #9e1dfd;
+  background: whitesmoke;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+}
+ #circularButton:before {
+  content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     position: absolute;
-    display: block;
-    list-style: none;
-    width: 20px;
-    height: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    animation: animate 19s linear infinite;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+ }
+
+ #circularButton:active {
+  color: #000
 }
 
+ #circularButton:active:after {
+  background: transparent;
+}
 
+#circularButton:hover:before {
+  opacity: 1;
+}
+ #circularButton:after {
+  z-index: -1;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: whitesmoke;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+#barChartButton {
+  width: 220px;
+  height: 50px;
+  border: none;
+  outline: none;
+  color: #9e1dfd;
+  background: whitesmoke;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+}
+ #barChartButton:before {
+  content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+ }
 
+ #barChartButton:active {
+  color: #000
+}
 
-.background li:nth-child(0) {
-    left: 44%;
-    width: 148px;
-    height: 148px;
-    bottom: -148px;
-    animation-delay: 1s;
+ #barChartButton:active:after {
+  background: transparent;
 }
-.background li:nth-child(1) {
-    left: 26%;
-    width: 142px;
-    height: 142px;
-    bottom: -142px;
-    animation-delay: 2s;
+
+#barChartButton:hover:before {
+  opacity: 1;
 }
-.background li:nth-child(2) {
-    left: 20%;
-    width: 106px;
-    height: 106px;
-    bottom: -106px;
-    animation-delay: 1s;
+ #barChartButton:after {
+  z-index: -1;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: whitesmoke;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
 }
-.background li:nth-child(3) {
-    left: 33%;
-    width: 130px;
-    height: 130px;
-    bottom: -130px;
-    animation-delay: 3s;
+
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
 }
-.background li:nth-child(4) {
-    left: 29%;
-    width: 147px;
-    height: 147px;
-    bottom: -147px;
-    animation-delay: 20s;
-}
-.background li:nth-child(5) {
-    left: 24%;
-    width: 178px;
-    height: 178px;
-    bottom: -178px;
-    animation-delay: 19s;
-}
-.background li:nth-child(6) {
-    left: 74%;
-    width: 163px;
-    height: 163px;
-    bottom: -163px;
-    animation-delay: 27s;
-}
-.background li:nth-child(7) {
-    left: 20%;
-    width: 170px;
-    height: 170px;
-    bottom: -170px;
-    animation-delay: 33s;
-}
-.background li:nth-child(8) {
-    left: 15%;
-    width: 197px;
-    height: 197px;
-    bottom: -197px;
-    animation-delay: 23s;
-}
-.background li:nth-child(9) {
-    left: 63%;
-    width: 147px;
-    height: 147px;
-    bottom: -147px;
-    animation-delay: 3s;
+
+.statistics-display h2 {
+  padding-left: 0;
+  padding-right: 25px;
+  text-align: right;
 }

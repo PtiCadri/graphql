@@ -81,9 +81,8 @@ async function filterDataForBarChart(data) {
   
     // Create an SVG element
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('width', '1000');
-    svg.setAttribute('height', '500');
-  
+    svg.setAttribute('width', '500');
+    svg.setAttribute('height', '450');
     // Get the data
     const data = await filterDataForBarChart(await getLogData(query));
   
@@ -137,13 +136,13 @@ async function filterDataForBarChart(data) {
       const label = data[i];
       const value = data[i + 1];
       
-      // Create br
+      // Create bar
       const bar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
       bar.setAttribute('x', (barWidth + barSpacing) * (i / 2) + barSpacing);
       bar.setAttribute('y', chartHeight - (value / Math.max(...data.filter((_, index) => index % 2 === 1))) * chartHeight);
       bar.setAttribute('width', barWidth);
       bar.setAttribute('height', (value / Math.max(...data.filter((_, index) => index % 2 === 1))) * chartHeight);
-      bar.setAttribute('fill', '#808080');
+      bar.setAttribute('fill', '#FFF');
       svg.appendChild(bar);
 
       // Create a label for the bar
@@ -184,8 +183,8 @@ async function createCircularDiagram() {
     cirDiaContainer.innerHTML = '';
 
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('width', '500');
-    svg.setAttribute('height', '500');
+    svg.setAttribute('width', '600');
+    svg.setAttribute('height', '650');
 
     let startAngle = 0;
     circData.forEach((xps, index) => {
@@ -206,9 +205,11 @@ async function createCircularDiagram() {
       const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       text.setAttribute('x', 250 + radius * Math.cos(((startAngle + endAngle) / 2) * Math.PI / 180));
       text.setAttribute('y', 250 + radius * Math.sin(((startAngle + endAngle) / 2) * Math.PI / 180));
+      text.setAttribute('dy', '-20');
       text.setAttribute('dominant-baseline', 'central');
       text.setAttribute('text-anchor', 'middle');
-      text.textContent = xps.projectName;
+      const percent = (xps.amount / total * 100).toFixed(2);
+      text.textContent = `${xps.projectName} (${percent}%)`;
       svg.appendChild(text);
 
       startAngle = endAngle;
@@ -221,4 +222,3 @@ async function createCircularDiagram() {
     console.log("No data to display")
   }
 }
-

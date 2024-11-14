@@ -7,33 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="./style/page.css">
 </head>
-<body>
-    <div class="login-container" id="login-container">
-        <h1>Login Section</h1>
-        <form id="login-form">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit" value="Login">Login</button>
-        </form>
-    </div>
-    <button id="logout-button">Logout</button>
-    <div id="username-display"></div>
-    <div id="statistics-display"></div>
-    <div id="bar-chart-container"></div>
-    <div id="circular-diagram-container"></div>
-    <ul class="background">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-     </ul>
-    <script src="src/log.js"></script>
-    <script src="src/chart.js"></script>
-</body>
+    <body>
+        <div class="login-container" id="login-container">
+            <div class="title">
+                Login Form
+            </div>
+                <form id="login-form">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <div class="field">
+                        <input type="submit" value="Login">
+                    </div>
+                </form>
+            </div>
+        <button id="logout-button">Logout</button>
+        <div id="username-display"></div>
+        <div id="statistics-display"></div>
+        <div id="bar-chart-container"></div>
+        <div id="circular-diagram-container"></div>
+        <script src="src/log.js"></script>
+        <script src="src/chart.js"></script>
+    </body>
 </html>
