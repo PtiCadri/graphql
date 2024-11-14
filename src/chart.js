@@ -4,9 +4,9 @@ const filteredDataBar = filterDataForBarChart(data);
 const cirDiaContainer = document.getElementById('circular-diagram-container');
 const barChartContainer = document.getElementById('bar-chart-container');
 
-//_______________________________________________________________\\
-//                                  FILTER DATA PART              \\
-//\\______________________________________________________________//
+//#####################################################################\\
+//######################  FILTER DATA PART  ###########################\\
+//#####################################################################\\
 async function filterDataForXPSCircDiag(data) {
   const response = await data;
   const user  = response.user[0];
@@ -67,9 +67,9 @@ async function filterDataForBarChart(data) {
   }
   
 
-  //_______________________________________________________________\\
-//                     CREATION PART                               \\
-//\\______________________________________________________________//
+//#####################################################################\\
+//####################  CREATION  CHART PART  #########################\\
+//#####################################################################\\
   //This function takes care of creating the bar to the current page when we click on a button 
   async function createBarChart() {
     const barWidth = 40;

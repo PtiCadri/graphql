@@ -32,7 +32,9 @@ const query = `query {
   }
 }` 
 
-//Logout Button Part 
+//#####################################################################\\
+//####################  LOGOUT BUTTON PART  ###########################\\
+//#####################################################################\\
 logoutButton.addEventListener('click', async () => {
   try {
     localStorage.removeItem('jwt');
@@ -48,7 +50,9 @@ logoutButton.addEventListener('click', async () => {
   }
 });
 
-//Login Form Part with chainRequests
+//#####################################################################\\
+//####################  CHAIN REQUEST PART ############################\\
+//#####################################################################\\
 const chainRequests = async (event) => {
   event.preventDefault();
     try {
@@ -86,6 +90,9 @@ const chainRequests = async (event) => {
     }
 };
 
+//#####################################################################\\
+//####################  GET DATA PART  ################################\\
+//#####################################################################\\
 async function getLogData(query) {
   const response = await fetch(graphqlEndpoint, {
     method: 'POST',
@@ -105,6 +112,9 @@ async function getLogData(query) {
   return data.data;
 }
 
+//#####################################################################\\
+//####################  DISPLAY STATISTICS PART #######################\\
+//#####################################################################\\
 async function displayStatistics(token) {
   const statsElement = document.getElementById('statistics-display');
   const data = await getLogData(query);
