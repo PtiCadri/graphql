@@ -1,5 +1,9 @@
-
-const data = getLogData(query);
+import { getLogData} from './log.js';
+import { query } from './constants.js';
+//#####################################################################\\
+//####################  VARIABLE DECLARATION  #########################\\
+//#####################################################################\\
+var data = getLogData(query);
 const filteredDataBar = filterDataForBarChart(data);
 const cirDiaContainer = document.getElementById('circular-diagram-container');
 const barChartContainer = document.getElementById('bar-chart-container');
@@ -8,9 +12,12 @@ const barChartContainer = document.getElementById('bar-chart-container');
 //######################  FILTER DATA PART  ###########################\\
 //#####################################################################\\
 async function filterDataForXPSCircDiag(data) {
-  const response = await data;
+  const response = await getLogData(query);
+  if (response === "ntm niko") {
+    return
+  }
   const user  = response.user[0];
-  const path = 
+  const path = "";
   console.log('User:', user);
   const xpsData = user && user.xps;
   console.log('xpsData:', xpsData);
@@ -66,12 +73,11 @@ async function filterDataForBarChart(data) {
     ];
   }
   
-
 //#####################################################################\\
 //####################  CREATION  CHART PART  #########################\\
 //#####################################################################\\
   //This function takes care of creating the bar to the current page when we click on a button 
-  async function createBarChart() {
+async function createBarChart() {
     const barWidth = 40;
     const barSpacing = 50;
     const chartHeight = 200;
@@ -110,6 +116,7 @@ async function filterDataForBarChart(data) {
     scale.setAttribute('font-size', 14);
     scale.setAttribute('dy', '-1');
     scale.textContent = '1grad = 20';
+    scale.setAttribute('fill', 'white');
     svg.appendChild(scale);
   
     // Graduations
@@ -175,11 +182,15 @@ async function filterDataForBarChart(data) {
 }
 
 
+  /**
+   * This function takes care of creating a circular diagram of the user's completed exercises divided by projects.
+   * It first filters the data and then creates SVG elements to draw each part of the diagram.
+   * The data is then displayed in the circular-diagram-container div.
+   */
 async function createCircularDiagram() {
   const circData = await filterDataForXPSCircDiag(data);
   if (circData) {
     const total = circData.reduce((acc, current) => acc + current.amount, 0);
-
     cirDiaContainer.innerHTML = '';
 
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -214,11 +225,18 @@ async function createCircularDiagram() {
 
       startAngle = endAngle;
     });
-
     cirDiaContainer.appendChild(svg);
     document.getElementById('circularButton').style.display="none"
-
   } else {
     console.log("No data to display")
   }
 }
+
+document.getElementById('circularButton').addEventListener('click', createCircularDiagram);
+document.getElementById('barChartButton').addEventListener('click', createBarChart);
+
+/* 
+bug du logout 
+mettre les boutons dans l'index html et les mettre en display none
+avant le chargement du innerhtml
+ */
